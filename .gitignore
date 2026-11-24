@@ -1,0 +1,54 @@
+# ==========================================
+# Environment variables and secrets
+# ==========================================
+.env
+.env.*
+!.env.example
+
+# ==========================================
+# Windows / macOS system files
+# ==========================================
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# ==========================================
+# IDE / Editor files
+# ==========================================
+.vscode/
+.idea/
+
+# ==========================================
+# Logs and temporary files
+# ==========================================
+*.log
+*.tmp
+*.bak
+
+# ==========================================
+# Python (if using Python backend)
+# ==========================================
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ==========================================
+# JavaScript / Node.js
+# ==========================================
+node_modules/
+dist/
+build/
+coverage/
+.next/
+
+# ==========================================
+# PostgreSQL local data and backups
+# ==========================================
+pgdata/
+postgres-data/
+*.dump
+*.backup
