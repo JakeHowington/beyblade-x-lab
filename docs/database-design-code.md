@@ -1,3 +1,10 @@
+## ERD Documentation
+This document covers the database structure for the Beybalde X lab website.
+This is written in DMBL (Database Markup Language).
+
+## Database Schema
+
+```dbml
 Enum collection.colors{
   blue
   red
@@ -163,3 +170,7 @@ Table collection.lockChip{
   id integer [pk]
   name varchar(20) [unique, not null]
 }
+```
+
+## Entity Relationship Diagram
+![Database ERD](images/ERD.png)

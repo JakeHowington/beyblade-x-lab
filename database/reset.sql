@@ -1,0 +1,2 @@
+DROP SCHEMA IF EXISTS catalog CASCADE;
+DELETE FROM catalog.blades;
