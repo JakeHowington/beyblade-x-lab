@@ -14,6 +14,9 @@ CREATE TYPE catalog.manufacturers AS ENUM (
 CREATE TYPE catalog.editions AS ENUM (
     'standard_release', 'alternate_colorway', 'special_release', 'collab_release');
 
+CREATE TYPE catalog.bit_height AS ENUM(
+    'standard','low','high','under','variable');
+
 
 -- Individual parts tables 
 CREATE TABLE catalog.blades(
@@ -33,6 +36,7 @@ CREATE TABLE catalog.ratchets(
         CHECK(sides BETWEEN 0 AND 9),
     height INTEGER NOT NULL 
         CHECK(height BETWEEN 45 AND 85 AND height % 5 = 0),
+    has_metal_ring BOOLEAN NOT NULL,
     is_simple BOOLEAN NOT NULL
 );
 
@@ -41,12 +45,7 @@ CREATE TABLE catalog.bits(
     name TEXT NOT NULL UNIQUE,
     bey_type catalog.bey_type NOT NULL,
     ratchet_integration BOOLEAN NOT NULL,
-    height INTEGER 
-        CHECK(height BETWEEN 45 AND 85 AND height % 5 = 0),
-    CONSTRAINT valid_bit CHECK (
-        (ratchet_integration IS FALSE AND height IS NULL) OR
-        (ratchet_integration IS TRUE AND height IS NOT NULL)
-    )
+    height catalog.bit_height NOT NULL
 );
 
 CREATE TABLE catalog.assist_blades(
@@ -164,3 +163,7 @@ CREATE UNIQUE INDEX ON catalog.variants(over_blade_id, edition, main_color, seco
 CREATE UNIQUE INDEX ON catalog.variants(metal_blade_id, edition, main_color, secondary_color, metal_coat, manufacturer) NULLS NOT DISTINCT WHERE metal_blade_id IS NOT NULL;
 CREATE UNIQUE INDEX ON catalog.variants(assist_blade_id, edition, main_color, secondary_color, metal_coat, manufacturer) NULLS NOT DISTINCT WHERE assist_blade_id IS NOT NULL;
 CREATE UNIQUE INDEX ON catalog.variants(lock_chip_id, edition, main_color, secondary_color, metal_coat, manufacturer) NULLS NOT DISTINCT WHERE lock_chip_id IS NOT NULL;
+
+
+-- Creating Indexes to prevent duplicate rachets
+CREATE UNIQUE INDEX ON catalog.ratchets(sides,height,is_simple,has_metal_ring) NULLS NOT DISTINCT WHERE id IS NOT NULL;
