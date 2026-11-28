@@ -10,6 +10,7 @@ DROP SCHEMA IF EXISTS collection CASCADE;
 DROP SCHEMA IF EXISTS battle CASCADE;
 
 -- Recreats the schemas then repopulates the catalog with all Beyblades and Parts
+\set ON_ERROR_STOP on
 \ir ./00_schemas.sql
 \ir ./01_catalog.sql
 \ir ./02_seed.sql

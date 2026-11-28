@@ -86,8 +86,8 @@ CREATE TABLE catalog.bx_ux_combos(
     ratchet_id BIGINT
         REFERENCES catalog.ratchets(id),
     bit_id BIGINT NOT NULL
-        REFERENCES catalog.bits(id),
-    is_stock BOOLEAN NOT NULL
+        REFERENCES catalog.bits(id)
+    
     -- Current compatibility checks for cx,bx,ux combos will be done via application backend
 ); 
 
@@ -107,7 +107,6 @@ CREATE TABLE catalog.cx_combos(
         REFERENCES catalog.ratchets(id),
     bit_id BIGINT NOT NULL
         REFERENCES catalog.bits(id),
-    is_stock BOOLEAN NOT NULL,
 
     CONSTRAINT valid_blade_combo CHECK(
         (main_blade_id IS NOT NULL AND over_blade_id IS NULL AND metal_blade_id IS NULL) OR
@@ -166,4 +165,11 @@ CREATE UNIQUE INDEX ON catalog.variants(lock_chip_id, edition, main_color, secon
 
 
 -- Creating Indexes to prevent duplicate rachets
-CREATE UNIQUE INDEX ON catalog.ratchets(sides,height,is_simple,has_metal_ring) NULLS NOT DISTINCT WHERE id IS NOT NULL;
+CREATE UNIQUE INDEX ON catalog.ratchets(sides,height,is_simple,has_metal_ring);
+
+
+
+-- Creating Indexes to prevent duplicate combos 
+CREATE UNIQUE INDEX ON catalog.bx_ux_combos(blade_id, ratchet_id, bit_id) NULLS NOT DISTINCT;
+CREATE UNIQUE INDEX ON catalog.cx_combos(lock_chip_id,main_blade_id,over_blade_id,metal_blade_id,assist_blade_id, ratchet_id, bit_id) NULLS NOT DISTINCT;
+
